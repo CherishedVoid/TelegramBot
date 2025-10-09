@@ -34,10 +34,20 @@ public class TelegramBotHandler
 
         await _userService.SaveUserAsync(userId, userName, realName);
 
-        await _botClient.SendMessage(
+
+        if (messageText == "/help" || messageText == "/help@TgAssistantGuildBot")
+        {
+            await _botClient.SendMessage(
+        chatId: update.Message.Chat.Id,
+        text: "Справка о боте:\nБот создан в развлекательных целях");
+        }
+
+        else
+        {
+            await _botClient.SendMessage(
      chatId: update.Message.Chat.Id,
      text: "Спасибо за предоставленные данные\nУдачного дня!");
-
+        }
     }
     private Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
