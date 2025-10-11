@@ -39,7 +39,14 @@ public class TelegramBotHandler
         {
             await _botClient.SendMessage(
         chatId: update.Message.Chat.Id,
-        text: "Справка о боте:\nБот создан в развлекательных целях");
+        text: "Справка о боте:\n/start - предоставляет все данные пользователя телеграмма (нужно нажать хотя бы раз)\n/teg - упоминает всех участников чата");
+        }
+
+        if (messageText == "/teg" || messageText == "/teg@TgAssistantGuildBot")
+        {
+            await _botClient.SendMessage(
+        chatId: update.Message.Chat.Id,
+        text: "Начинаю...\n");
         }
 
         else
