@@ -2,6 +2,7 @@
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 using Tg_Bot;
+using Tg_Bot.Contexts.EFCore.DataContexts;
 
 
 class Program
@@ -10,7 +11,7 @@ class Program
     {
 
         // Инициализация БД
-        var dbContext = new ApplicationContext();
+        var dbContext = new DataContexts();
 
         // Инициализация сервисов
         var botToken = ("8266835873:AAE2aJOS9nLZ3iRNs3uZG_v3q4oGATWzk7o");

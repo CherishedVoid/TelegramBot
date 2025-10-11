@@ -8,13 +8,15 @@ using Telegram.Bot.Types.Enums;
 using Tg_Bot;
 using Tg_Bot.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Tg_Bot.Contexts;
+using Tg_Bot.Contexts.EFCore.DataContexts;
 
 
 public class UserService
 {
-    private readonly ApplicationContext _dbContext;
+    private readonly DataContexts _dbContext;
     private readonly ITelegramBotClient _botClient;
-    public UserService(ApplicationContext dbContext)
+    public UserService(DataContexts dbContext)
     {
         _dbContext = dbContext;
     }
