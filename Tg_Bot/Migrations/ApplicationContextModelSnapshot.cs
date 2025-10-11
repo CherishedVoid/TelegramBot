@@ -11,7 +11,7 @@ using Tg_Bot.Contexts.EFCore.DataContexts;
 
 namespace Tg_Bot.Migrations
 {
-    [DbContext(typeof(DataContexts))]
+    [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

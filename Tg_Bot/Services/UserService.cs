@@ -14,9 +14,9 @@ using Tg_Bot.Contexts.EFCore.DataContexts;
 
 public class UserService
 {
-    private readonly DataContexts _dbContext;
+    private readonly ApplicationContext _dbContext;
     private readonly ITelegramBotClient _botClient;
-    public UserService(DataContexts dbContext)
+    public UserService(ApplicationContext dbContext)
     {
         _dbContext = dbContext;
     }

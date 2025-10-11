@@ -11,7 +11,7 @@ class Program
     {
 
         // Инициализация БД
-        var dbContext = new DataContexts();
+        var dbContext = new ApplicationContext();
 
         // Инициализация сервисов
         var botToken = ("8266835873:AAE2aJOS9nLZ3iRNs3uZG_v3q4oGATWzk7o");
