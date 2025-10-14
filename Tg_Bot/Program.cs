@@ -82,15 +82,7 @@ class Program
         if (update.Message is not { Text: { } messageText } message)
             return;
     }
-<<<<<<< HEAD
-    //Тут произашло добавление новой функции
 
 
 }
 
-   
-
-
-=======
-}
->>>>>>> NewFunctions
