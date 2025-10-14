@@ -82,7 +82,6 @@ class Program
         if (update.Message is not { Text: { } messageText } message)
             return;
     }
-    //12
 }
 
 
