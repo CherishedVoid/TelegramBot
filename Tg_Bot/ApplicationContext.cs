@@ -6,7 +6,6 @@ namespace Tg_Bot
     public class ApplicationContext : DbContext
     {
         public DbSet<Users> Users { get; set; }
-        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

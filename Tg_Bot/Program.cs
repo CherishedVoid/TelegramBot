@@ -3,7 +3,6 @@ using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 using Tg_Bot;
 
-
 class Program
 {
     static async Task Main()
@@ -53,9 +52,6 @@ class Program
                 case "2":
                     await SaveUserManually(userService);
                     break;
-                case "3":
-                    await userService.FindUsersAsync();
-                    break;
                 case "0":
                     return;
                 default:
@@ -86,6 +82,7 @@ class Program
         if (update.Message is not { Text: { } messageText } message)
             return;
     }
+<<<<<<< HEAD
     //Тут произашло добавление новой функции
 
 
@@ -94,3 +91,6 @@ class Program
    
 
 
+=======
+}
+>>>>>>> NewFunctions

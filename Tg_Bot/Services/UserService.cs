@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using Telegram.Bot;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Tg_Bot;
 using Tg_Bot.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 public class UserService
@@ -53,12 +47,6 @@ public class UserService
         }
     }
 
-    public async Task FindUsersAsync()
-    {
-
-    }
-
-
     public async Task SendWelcomeToGroup(ITelegramBotClient botClient, long groupId)
     {
         var message = "👋 Приветствуем в группе!\n\n" +
@@ -68,19 +56,22 @@ public class UserService
                      "/teg - упомянуть участников";
 
         await botClient.SendMessage(groupId, message);
-
-
     }
+    // Обновленный метод для получения всех username/nickname из базы данных
+    public async Task<List<string>> GetAllUsernamesAsync()
+    {
+        return await _dbContext.Users
+            .Select(u => u.UserName == "Без username" ? u.Nickname : u.UserName)
+            .Where(name => !string.IsNullOrEmpty(name))
+            .ToListAsync();
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    // Метод для форматирования списка username для Telegram
+    public string FormatUsernamesForTelegram(List<string> usernames)
+    {
+        if (usernames == null || !usernames.Any())
+            return "В базе данных нет пользователей";
+        
+            return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
+    }
+}
