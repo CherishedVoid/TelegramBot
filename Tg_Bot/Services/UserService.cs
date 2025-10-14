@@ -57,4 +57,21 @@ public class UserService
 
         await botClient.SendMessage(groupId, message);
     }
+    // Обновленный метод для получения всех username/nickname из базы данных
+    public async Task<List<string>> GetAllUsernamesAsync()
+    {
+        return await _dbContext.Users
+            .Select(u => u.UserName == "Без username" ? u.Nickname : u.UserName)
+            .Where(name => !string.IsNullOrEmpty(name))
+            .ToListAsync();
+    }
+
+    // Метод для форматирования списка username для Telegram
+    public string FormatUsernamesForTelegram(List<string> usernames)
+    {
+        if (usernames == null || !usernames.Any())
+            return "В базе данных нет пользователей";
+        
+            return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
+    }
 }

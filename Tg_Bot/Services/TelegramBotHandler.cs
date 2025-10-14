@@ -39,18 +39,33 @@ public class TelegramBotHandler
         text: "Справка о боте:\n/start - предоставляет все данные пользователя телеграмма (нужно нажать хотя бы раз)\n/teg - упоминает всех участников чата");
         }
 
-        if (messageText == "/teg" || messageText == "/teg@TgAssistantGuildBot")
+        else if (messageText == "/teg" || messageText == "/teg@TgAssistantGuildBot")
         {
-            await _botClient.SendMessage(
-        chatId: update.Message.Chat.Id,
-        text: ($"Начинаю...\n" + "@" + user.Username));
-        }
+            try
+            {
+                // Получаем все username из базы данных
+                var usernames = await _userService.GetAllUsernamesAsync();
 
+                // Форматируем сообщение
+                string message = _userService.FormatUsernamesForTelegram(usernames);
+
+                await _botClient.SendMessage(
+                    chatId: update.Message.Chat.Id,
+                    text: message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при выполнении /teg: {ex.Message}");
+                await _botClient.SendMessage(
+                    chatId: update.Message.Chat.Id,
+                    text: "Произошла ошибка при получении данных пользователей");
+            }
+        }
         else
         {
             await _botClient.SendMessage(
-     chatId: update.Message.Chat.Id,
-     text: "Спасибо за предоставленные данные\nУдачного дня!");
+                chatId: update.Message.Chat.Id,
+                text: "Спасибо за предоставленные данные\nУдачного дня!");
         }
     }
     private Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
