@@ -1,8 +1,5 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 public class TelegramBotHandler
 {
@@ -46,7 +43,7 @@ public class TelegramBotHandler
         {
             await _botClient.SendMessage(
         chatId: update.Message.Chat.Id,
-        text: "Начинаю...\n");
+        text: ($"Начинаю...\n" + "@" + user.Username));
         }
 
         else
@@ -61,6 +58,4 @@ public class TelegramBotHandler
         Console.WriteLine($"Ошибка в боте: {exception.Message}");
         return Task.CompletedTask;
     }
-    
-    }
-    
+}

@@ -2,8 +2,6 @@
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 using Tg_Bot;
-using Tg_Bot.Contexts.EFCore.DataContexts;
-
 
 class Program
 {
@@ -54,9 +52,6 @@ class Program
                 case "2":
                     await SaveUserManually(userService);
                     break;
-                case "3":
-                    await userService.FindUsersAsync();
-                    break;
                 case "0":
                     return;
                 default:
@@ -87,11 +82,4 @@ class Program
         if (update.Message is not { Text: { } messageText } message)
             return;
     }
-    // Это вторая ветка и ее изменения не коснутся основной
-
-
 }
-
-   
-
-

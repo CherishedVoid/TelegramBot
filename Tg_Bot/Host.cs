@@ -47,5 +47,5 @@ namespace Tg_Bot
             OnMessage?.Invoke(client, update);
             await Task.CompletedTask;
         }
-                 }
+    }
 }

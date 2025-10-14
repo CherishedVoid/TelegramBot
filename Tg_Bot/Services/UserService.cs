@@ -1,15 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using Telegram.Bot;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Tg_Bot;
 using Tg_Bot.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using Tg_Bot.Contexts;
-using Tg_Bot.Contexts.EFCore.DataContexts;
 
 
 public class UserService
@@ -55,12 +47,6 @@ public class UserService
         }
     }
 
-    public async Task FindUsersAsync()
-    {
-
-    }
-
-
     public async Task SendWelcomeToGroup(ITelegramBotClient botClient, long groupId)
     {
         var message = "👋 Приветствуем в группе!\n\n" +
@@ -70,19 +56,5 @@ public class UserService
                      "/teg - упомянуть участников";
 
         await botClient.SendMessage(groupId, message);
-
-
     }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
+}
