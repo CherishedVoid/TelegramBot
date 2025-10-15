@@ -50,7 +50,7 @@ class Program
                     await userService.UpdatingUsersAsync();
                     break;
                 case "2":
-                    await SaveUserManually(userService);
+                    await UserService.SaveUserManually(userService);
                     break;
                 case "0":
                     return;
@@ -60,29 +60,5 @@ class Program
             }
         }
     }
-    private static async Task SaveUserManually(UserService userService)
-    {
-        Console.WriteLine("Введите ID пользователя:");
-        if (!int.TryParse(Console.ReadLine(), out int userId))
-        {
-            Console.WriteLine("Некорректный ID!");
-            return;
-        }
-
-        Console.WriteLine("Введите username:");
-        string userName = Console.ReadLine() ?? "Без username";
-
-        Console.WriteLine("Введите реальное имя:");
-        string realName = Console.ReadLine() ?? "Без имени";
-
-        await userService.SaveUserAsync(userId, userName, realName);
-    }
-    public async Task HandleUpdateAsync(ITelegramBotClient client, Telegram.Bot.Types.Update update, CancellationToken cancellationToken, long groupId)
-    {
-        if (update.Message is not { Text: { } messageText } message)
-            return;
-    }
-
-
 }
 

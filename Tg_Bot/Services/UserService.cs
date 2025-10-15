@@ -30,10 +30,6 @@ public class UserService
             await _dbContext.SaveChangesAsync();
             Console.WriteLine($"Пользователь {realName} {userId} сохранён в БД.");
         }
-        else
-        {
-            Console.WriteLine($"Пользователь {userName} {userId} уже есть в БД.");
-        }
     }
 
     public async Task UpdatingUsersAsync()
@@ -69,9 +65,30 @@ public class UserService
     // Метод для форматирования списка username для Telegram
     public string FormatUsernamesForTelegram(List<string> usernames)
     {
-        if (usernames == null || !usernames.Any())
-            return "В базе данных нет пользователей";
-        
-            return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
+        if (usernames == null || !usernames.Any()) return "В базе данных нет пользователей";
+        return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
+    }
+
+    public static async Task SaveUserManually(UserService userService)
+    {
+        Console.WriteLine("Введите ID пользователя:");
+        if (!int.TryParse(Console.ReadLine(), out int userId))
+        {
+            Console.WriteLine("Некорректный ID!");
+            return;
+        }
+
+        Console.WriteLine("Введите username:");
+        string userName = Console.ReadLine() ?? "Без username";
+
+        Console.WriteLine("Введите реальное имя:");
+        string realName = Console.ReadLine() ?? "Без имени";
+
+        await userService.SaveUserAsync(userId, userName, realName);
+    }
+    public async Task HandleUpdateAsync(ITelegramBotClient client, Telegram.Bot.Types.Update update, CancellationToken cancellationToken, long groupId)
+    {
+        if (update.Message is not { Text: { } messageText } message)
+            return;
     }
 }
