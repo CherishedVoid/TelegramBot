@@ -1,24 +1,30 @@
 ﻿using Tg_Bot.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tg_Bot.Models;
+using Microsoft.Extensions.Configuration;
 
-namespace Tg_Bot.Contexts
+namespace Tg_Bot.Contexts.EFCore.DataContexts
 {
-    namespace EFCore.DataContexts
-    {
     public class DataContexts : DbContext
     {
-            public DbSet<Users> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
 
-            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=students_db;Username=postgres;Password=381164957");
+            if (!optionsBuilder.IsConfigured)
+            {
+                var configuration = new ConfigurationBuilder()
+                    .AddUserSecrets<DataContexts>()
+                    .Build();
+
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    throw new InvalidOperationException("Connection string not found in secrets.json");
+                }
+
+                optionsBuilder.UseSqlServer(connectionString);
+            }
         }
     }
-}
 }
