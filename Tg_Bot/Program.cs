@@ -13,7 +13,7 @@ class Program
 
         // Инициализация сервисов
         var botToken = ("8266835873:AAE2aJOS9nLZ3iRNs3uZG_v3q4oGATWzk7o");
-        var groupId = -4855178515;
+        var groupId = -1002491503978;
         var _bot = new TelegramBotClient("8266835873:AAE2aJOS9nLZ3iRNs3uZG_v3q4oGATWzk7o");
         var botClient = new TelegramBotClient(botToken);
         var userService = new UserService(dbContext);

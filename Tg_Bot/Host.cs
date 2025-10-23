@@ -35,7 +35,6 @@ namespace Tg_Bot
             await Task.CompletedTask;
         }
 
-
         private async Task HandleUpdateAsync(ITelegramBotClient client, Update update, CancellationToken cancellationToken)
         {
             if (update.Message is not { Text: { } messageText } message)

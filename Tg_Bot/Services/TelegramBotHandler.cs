@@ -61,12 +61,6 @@ public class TelegramBotHandler
                     text: "Произошла ошибка при получении данных пользователей");
             }
         }
-        else
-        {
-            await _botClient.SendMessage(
-                chatId: update.Message.Chat.Id,
-                text: "Спасибо за предоставленные данные\nУдачного дня!");
-        }
     }
     private Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
