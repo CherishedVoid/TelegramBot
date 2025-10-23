@@ -2,12 +2,12 @@
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.Enums;
 using Tg_Bot;
+using Tg_Bot.Services;
 
 class Program
 {
     static async Task Main()
     {
-
         // Инициализация БД
         var dbContext = new ApplicationContext();
 
@@ -23,7 +23,6 @@ class Program
         botHandler.StartReceiving();
         await userService.SendWelcomeToGroup(bot, groupId);
 
-
         var receiverOptions = new ReceiverOptions
         {
             AllowedUpdates = Array.Empty<UpdateType>() // Получаем все типы updates
@@ -31,34 +30,7 @@ class Program
 
         using var cts = new CancellationTokenSource();
 
-        Console.WriteLine("Бот готов к работе!");
-
-        // Консольный интерфейс
-        while (true)
-        {
-            Console.WriteLine("\nВыберите операцию:");
-            Console.WriteLine("1 - Получение данных пользователей");
-            Console.WriteLine("2 - Сохранить пользователя (вручную)");
-            Console.WriteLine("3 - Найти пользователя по ID");
-            Console.WriteLine("0 - Выйти\n");
-
-            var choice = Console.ReadLine();
-
-            switch (choice)
-            {
-                case "1":
-                    await userService.UpdatingUsersAsync();
-                    break;
-                case "2":
-                    await UserService.SaveUserManually(userService);
-                    break;
-                case "0":
-                    return;
-                default:
-                    Console.WriteLine("Некорректный выбор");
-                    break;
-            }
-        }
+        await UiService.Menu();
     }
 }
 
