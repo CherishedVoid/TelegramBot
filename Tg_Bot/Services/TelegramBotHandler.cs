@@ -36,7 +36,7 @@ public class TelegramBotHandler
         {
             await _botClient.SendMessage(
         chatId: update.Message.Chat.Id,
-        text: "Справка о боте:\n/start - предоставляет все данные пользователя телеграмма (нужно нажать хотя бы раз)\n/teg - упоминает всех участников чата");
+        text: "Справка о боте:\n/start - предоставляет все данные пользователя телеграмма (нужно нажать хотя бы раз).\nПри изменении данных в телеграмм, требуется повторное взаимодействие.\n/teg - упоминает всех участников чата.");
         }
 
         else if (messageText == "/teg" || messageText == "/teg@TgAssistantGuildBot")

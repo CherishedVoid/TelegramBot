@@ -19,19 +19,25 @@ public class UserService
 
         if (existingUser == null)
         {
+            // Добавляем нового пользователя
             _dbContext.Users.Add(new Users
             {
                 UserId = userId,
                 UserName = userName,
                 Nickname = realName
-
             });
-
-            await _dbContext.SaveChangesAsync();
             Console.WriteLine($"Пользователь {realName} {userId} сохранён в БД.");
         }
-    }
+        else
+        {
+            // Обновляем данные существующего пользователя
+            existingUser.UserName = userName;
+            existingUser.Nickname = realName;
+            Console.WriteLine($"Данные пользователя {realName} {userId} обновлены в БД.");
+        }
 
+        await _dbContext.SaveChangesAsync();
+    }
     public async Task UpdatingUsersAsync()
     {
         // Логика получения данных пользователей для консоли
@@ -49,7 +55,7 @@ public class UserService
                      "Команды:\n" +
                      "/help - справка\n" +
                      "/start - начало работы\n"
-        +  "/teg - упомянуть участников";
+        + "/teg - упомянуть участников";
 
         await botClient.SendMessage(groupId, message);
     }

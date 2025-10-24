@@ -28,8 +28,6 @@ class Program
             AllowedUpdates = Array.Empty<UpdateType>() // Получаем все типы updates
         };
 
-        using var cts = new CancellationTokenSource();
-
         await UiService.Menu();
     }
 }
