@@ -90,14 +90,13 @@ public class TelegramBotHandler
             }
         }
         // Добавьте другие команды здесь, которые доступны всем пользователям
-        else if (messageText == "/start" || messageText == "/start@TgAssistantGuildBot")
-        {
-            await _botClient.SendMessage(
-                chatId: chat.Id,
-                text: $"Добро пожаловать! Ваши данные:\nID: {userId}\nUsername: {userName}\nИмя: {realName}\n\nИспользуйте /help для списка команд.");
-        }
+        //else if (messageText == "/start" || messageText == "/start@TgAssistantGuildBot")
+        //{
+        //    await _botClient.SendMessage(
+        //        chatId: chat.Id,
+        //        text: $"Добро пожаловать! Ваши данные:\nID: {userId}\nUsername: {userName}\nИмя: {realName}\n\nИспользуйте /help для списка команд.");
+        //}
     }
-
     private Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
         Console.WriteLine($"Ошибка в боте: {exception.Message}");
