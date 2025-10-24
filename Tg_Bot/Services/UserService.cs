@@ -35,7 +35,6 @@ public class UserService
             existingUser.Nickname = realName;
             Console.WriteLine($"Данные пользователя {realName} {userId} обновлены в БД.");
         }
-
         await _dbContext.SaveChangesAsync();
     }
     public async Task UpdatingUsersAsync()
@@ -45,19 +44,15 @@ public class UserService
         foreach (var user in users)
         {
             Console.WriteLine($"ID: {user.UserId}, Nickname: {user.Nickname}, Username: {user.UserName}");
-
         }
     }
-
     public async Task SendWelcomeToGroup(ITelegramBotClient botClient, long groupId)
     {
         var message = "👋 Приветствуем в группе!\n\n" +
                      "Команды:\n" +
                      "/help - справка\n" +
-                     "/start - начало работы\n"
-        + "/teg - упомянуть участников";
-
-        await botClient.SendMessage(groupId, message);
+                     "/start - начало работы\n" +
+                     "/teg - упомянуть участников"; await botClient.SendMessage(groupId, message);
     }
     // Обновленный метод для получения всех username/nickname из базы данных
     public async Task<List<string>> GetAllUsernamesAsync()
@@ -67,14 +62,12 @@ public class UserService
             .Where(name => !string.IsNullOrEmpty(name))
             .ToListAsync();
     }
-
     // Метод для форматирования списка username для Telegram
     public string FormatUsernamesForTelegram(List<string> usernames)
     {
         if (usernames == null || !usernames.Any()) return "В базе данных нет пользователей";
         return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
     }
-
     public static async Task SaveUserManually(UserService userService)
     {
         Console.WriteLine("Введите ID пользователя:");
