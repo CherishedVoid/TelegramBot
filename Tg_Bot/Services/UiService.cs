@@ -9,12 +9,10 @@ namespace Tg_Bot.Services
     internal class UiService
     {
         private static object userService;
-
-       public static async Task Menu()
+        public static async Task Menu()
         {
             var dbContext = new ApplicationContext();
             var userService = new UserService(dbContext);
-
 
             // Консольный интерфейс
             while (true)
@@ -45,5 +43,5 @@ namespace Tg_Bot.Services
         }
     }
 }
-    
+
 

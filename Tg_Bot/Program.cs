@@ -10,10 +10,9 @@ class Program
     {
         // Инициализация БД
         var dbContext = new ApplicationContext();
-
         // Инициализация сервисов
         var botToken = ("8266835873:AAE2aJOS9nLZ3iRNs3uZG_v3q4oGATWzk7o");
-        var groupId = -1002491503978;
+        var groupId = -4829096662;
         var _bot = new TelegramBotClient("8266835873:AAE2aJOS9nLZ3iRNs3uZG_v3q4oGATWzk7o");
         var botClient = new TelegramBotClient(botToken);
         var userService = new UserService(dbContext);
@@ -27,8 +26,6 @@ class Program
         {
             AllowedUpdates = Array.Empty<UpdateType>() // Получаем все типы updates
         };
-
         await UiService.Menu();
     }
 }
-

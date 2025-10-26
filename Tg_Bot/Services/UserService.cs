@@ -2,17 +2,13 @@
 using Telegram.Bot;
 using Tg_Bot;
 using Tg_Bot.Models;
-
-
 public class UserService
 {
     private readonly ApplicationContext _dbContext;
-    private readonly ITelegramBotClient _botClient;
     public UserService(ApplicationContext dbContext)
     {
         _dbContext = dbContext;
     }
-
     public async Task SaveUserAsync(int userId, string userName, string realName)
     {
         var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
@@ -37,6 +33,7 @@ public class UserService
         }
         await _dbContext.SaveChangesAsync();
     }
+
     public async Task UpdatingUsersAsync()
     {
         // Логика получения данных пользователей для консоли
@@ -46,28 +43,59 @@ public class UserService
             Console.WriteLine($"ID: {user.UserId}, Nickname: {user.Nickname}, Username: {user.UserName}");
         }
     }
+
     public async Task SendWelcomeToGroup(ITelegramBotClient botClient, long groupId)
     {
         var message = "👋 Приветствуем в группе!\n\n" +
                      "Команды:\n" +
                      "/help - справка\n" +
                      "/start - начало работы\n" +
-                     "/teg - упомянуть участников"; await botClient.SendMessage(groupId, message);
+                     "/teg - упомянуть участников";
+        await botClient.SendMessage(groupId, message);
     }
-    // Обновленный метод для получения всех username/nickname из базы данных
-    public async Task<List<string>> GetAllUsernamesAsync()
+
+    // Метод возвращает список пользователей
+    public async Task<List<Users>> GetAllUsersAsync()
     {
-        return await _dbContext.Users
-            .Select(u => u.UserName == "Без username" ? u.Nickname : u.UserName)
-            .Where(name => !string.IsNullOrEmpty(name))
-            .ToListAsync();
+        return await _dbContext.Users.ToListAsync();
     }
-    // Метод для форматирования списка username для Telegram
+
+    // Метод для форматирования упоминаний с HTML-ссылками
+    public string FormatUsersForTelegram(List<Users> users)
+    {
+        if (users == null || !users.Any())
+            return "В базе данных нет пользователей";
+
+        var mentions = new List<string>();
+
+        foreach (var user in users)
+        {
+            string userName = user.UserName ?? "Без username";
+            string nickName = user.Nickname ?? "Без имени";
+
+            // Если есть username (и он не "Без username"), используем обычное упоминание
+            if (!string.IsNullOrEmpty(userName) && userName != "Без username")
+            {
+                mentions.Add($"@{userName}");
+            }
+            // Если нет username, создаем HTML-ссылку по ID
+            else
+            {
+                string displayName = string.IsNullOrEmpty(nickName) ? "Пользователь" : nickName;
+                string mentionLink = $"<a href=\"tg://user?id={user.UserId}\">{displayName}</a>";
+                mentions.Add(mentionLink);
+            }
+        }
+        return "Упоминания пользователей:\n" + string.Join("\n", mentions);
+    }
+    // Старый метод форматирования для совместимости
     public string FormatUsernamesForTelegram(List<string> usernames)
     {
-        if (usernames == null || !usernames.Any()) return "В базе данных нет пользователей";
+        if (usernames == null || !usernames.Any())
+            return "В базе данных нет пользователей";
         return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
     }
+
     public static async Task SaveUserManually(UserService userService)
     {
         Console.WriteLine("Введите ID пользователя:");
@@ -76,13 +104,10 @@ public class UserService
             Console.WriteLine("Некорректный ID!");
             return;
         }
-
         Console.WriteLine("Введите username:");
         string userName = Console.ReadLine() ?? "Без username";
-
         Console.WriteLine("Введите реальное имя:");
         string realName = Console.ReadLine() ?? "Без имени";
-
         await userService.SaveUserAsync(userId, userName, realName);
     }
     public async Task HandleUpdateAsync(ITelegramBotClient client, Telegram.Bot.Types.Update update, CancellationToken cancellationToken, long groupId)

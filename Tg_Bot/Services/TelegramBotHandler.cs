@@ -12,7 +12,6 @@ public class TelegramBotHandler
         _botClient = new TelegramBotClient(token);
         _userService = userService;
     }
-
     public void StartReceiving()
     {
         _botClient.StartReceiving(
@@ -68,18 +67,19 @@ public class TelegramBotHandler
                     text: "❌ Команда /teg доступна только администраторам группы.");
                 return;
             }
-
             try
             {
                 // Получаем все username из базы данных
-                var usernames = await _userService.GetAllUsernamesAsync();
+                var users = await _userService.GetAllUsersAsync();
+
 
                 // Форматируем сообщение
-                string message = _userService.FormatUsernamesForTelegram(usernames);
+                string message = _userService.FormatUsersForTelegram(users);
 
                 await _botClient.SendMessage(
                     chatId: chat.Id,
-                    text: message);
+                    text: message,
+                    parseMode: Telegram.Bot.Types.Enums.ParseMode.Html); // ВАЖНО: добавляем поддержку HTML
             }
             catch (Exception ex)
             {
@@ -88,6 +88,7 @@ public class TelegramBotHandler
                     chatId: chat.Id,
                     text: "Произошла ошибка при получении данных пользователей");
             }
+
         }
         // Добавьте другие команды здесь, которые доступны всем пользователям
         //else if (messageText == "/start" || messageText == "/start@TgAssistantGuildBot")
