@@ -27,8 +27,6 @@ public class TelegramBotHandler
         {
             // Получаем всех администраторов чата
             var administrators = await botClient.GetChatAdministrators(chatId);
-
-            // Проверяем, есть ли пользователь среди администраторов
             return administrators.Any(admin => admin.User.Id == userId);
         }
         catch (Exception ex)
@@ -57,7 +55,6 @@ public class TelegramBotHandler
         }
         else if (messageText == "/teg" || messageText == "/teg@TgAssistantGuildBot")
         {
-            // Проверяем, является ли пользователь администратором только для команды /teg
             bool isAdmin = await IsUserAdminAsync(botClient, chat.Id, user.Id);
 
             if (!isAdmin)
@@ -69,17 +66,13 @@ public class TelegramBotHandler
             }
             try
             {
-                // Получаем все username из базы данных
                 var users = await _userService.GetAllUsersAsync();
-
-
-                // Форматируем сообщение
                 string message = _userService.FormatUsersForTelegram(users);
 
                 await _botClient.SendMessage(
                     chatId: chat.Id,
                     text: message,
-                    parseMode: Telegram.Bot.Types.Enums.ParseMode.Html); // ВАЖНО: добавляем поддержку HTML
+                    parseMode: Telegram.Bot.Types.Enums.ParseMode.Html);
             }
             catch (Exception ex)
             {

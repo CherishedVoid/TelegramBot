@@ -26,7 +26,6 @@ public class UserService
         }
         else
         {
-            // Обновляем данные существующего пользователя
             existingUser.UserName = userName;
             existingUser.Nickname = realName;
             Console.WriteLine($"Данные пользователя {realName} {userId} обновлены в БД.");
@@ -73,12 +72,11 @@ public class UserService
             string userName = user.UserName ?? "Без username";
             string nickName = user.Nickname ?? "Без имени";
 
-            // Если есть username (и он не "Без username"), используем обычное упоминание
             if (!string.IsNullOrEmpty(userName) && userName != "Без username")
             {
                 mentions.Add($"@{userName}");
             }
-            // Если нет username, создаем HTML-ссылку по ID
+            //  HTML-ссылка по ID, если отсутствует username
             else
             {
                 string displayName = string.IsNullOrEmpty(nickName) ? "Пользователь" : nickName;
@@ -88,15 +86,7 @@ public class UserService
         }
         return "Упоминания пользователей:\n" + string.Join("\n", mentions);
     }
-    // Старый метод форматирования для совместимости
-    public string FormatUsernamesForTelegram(List<string> usernames)
-    {
-        if (usernames == null || !usernames.Any())
-            return "В базе данных нет пользователей";
-        return "Упоминания пользователей:\n" + string.Join("\n", usernames.Select(username => $"@{username}"));
-    }
-
-    public static async Task SaveUserManually(UserService userService)
+     public static async Task SaveUserManually(UserService userService)
     {
         Console.WriteLine("Введите ID пользователя:");
         if (!int.TryParse(Console.ReadLine(), out int userId))
