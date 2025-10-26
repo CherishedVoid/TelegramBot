@@ -41,7 +41,7 @@ public class TelegramBotHandler
         if (update.Message is not { From: { } user, Text: { } messageText, Chat: { } chat })
             return;
 
-        int userId = (int)user.Id;
+        long userId = user.Id;
         string userName = user.Username ?? "Без username";
         string realName = $"{user.FirstName} {user.LastName}".Trim();
 
@@ -81,9 +81,7 @@ public class TelegramBotHandler
                     chatId: chat.Id,
                     text: "Произошла ошибка при получении данных пользователей");
             }
-
         }
-        // Добавьте другие команды здесь, которые доступны всем пользователям
         //else if (messageText == "/start" || messageText == "/start@TgAssistantGuildBot")
         //{
         //    await _botClient.SendMessage(

@@ -9,7 +9,7 @@ public class UserService
     {
         _dbContext = dbContext;
     }
-    public async Task SaveUserAsync(int userId, string userName, string realName)
+    public async Task SaveUserAsync(long userId, string userName, string realName)
     {
         var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserId == userId);
 
