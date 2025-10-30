@@ -1,6 +1,6 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio files
 .vs/
-<<<<<<< HEAD
-obj/
-=======
-obj/
->>>>>>> 95d8a5be60fb9afc8cdbc7bad01cfc50e0644c5e
